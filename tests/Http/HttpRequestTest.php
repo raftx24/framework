@@ -688,6 +688,21 @@ class HttpRequestTest extends TestCase
         $this->assertEquals([1 => 'A', 2 => 'B', 3 => 'C'], $request2->all());
     }
 
+    public function testReplaceInJsonRequest()
+    {
+        $body = [
+            'foo' => 'bar',
+        ];
+
+        $server = [
+            'CONTENT_TYPE' => 'application/json',
+        ];
+
+        $request = Request::create('/?boom=breeze', 'GET', [], [], [], $server, json_encode($body));
+        $request->replace(['boom' => 'something']);
+        $this->assertEquals('something', $request->get('boom'));
+    }
+
     public function testInputWithEmptyFilename()
     {
         $invalidFiles = [

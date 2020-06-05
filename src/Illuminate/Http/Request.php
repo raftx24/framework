@@ -338,6 +338,10 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      */
     public function get(string $key, $default = null)
     {
+        if (isset($this->json) && $this !== $result = $this->json($key, $this)) {
+            return $result;
+        }
+
         return parent::get($key, $default);
     }
 
